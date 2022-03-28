@@ -1,0 +1,69 @@
+syntax = "proto3"; 
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+option java_package = "org.heartfulness.starter.interfaces.grpc";
+
+message UserLoginRequest {
+	int32 user_mobile_number = 1;
+}
+
+message UserOtpVerificationRequest {
+	int32 mobile_otp = 1;
+}
+
+message UserOtpVerificationResponse {
+	string department = 1;
+	int32 mobile_number = 2;
+	string first_name = 3;
+	string last_name = 4;
+	int32 user_id = 5;
+}
+
+ 
+message VisitorTaskPostRequest {
+    string task_name = 1;
+    string task_description = 2;
+	repeated bytes upload_photo = 3;
+	repeated bytes upload_video = 4;
+	repeated bytes voice_recorder = 5;
+}
+
+message VisitorTaskPostResponse {
+    int64 task_id = 1;
+}
+
+message VisitorTaskGetRequest {
+    int32 user_id = 1;
+}
+
+message TaskManagerDetails {
+    string taskmanager_name = 1;
+    string taskmanager_comment_date = 2;
+    string taskmanager_comments = 3;
+}
+
+message VisitorTaskList {
+	int64 task_id = 1;
+    string task_name = 2;
+    string task_description = 3;
+    string taskmanager_name = 4;
+    string taskmanager_comment_date = 5;
+    string taskmanager_comments = 6;    
+	repeated string upload_photo = 7;
+	repeated string upload_video = 8;
+	repeated string voice_recorder = 9;
+}
+
+message VisitorTaskGetResponse {	
+	repeated VisitorTaskList my_task_request = 1;
+}
+
+service VisitorService {
+	rpc UserLoginService (UserLoginRequest) returns (google.protobuf.StringValue);
+	rpc UserOtpVerificationService (UserOtpVerificationRequest) returns (UserOtpVerificationResponse);
+    rpc AddVisitorTasksService (VisitorTaskPostRequest) returns (VisitorTaskPostResponse);
+    rpc GetVisitorTasksService  (google.protobuf.Empty) returns (VisitorTaskGetResponse);
+
+}

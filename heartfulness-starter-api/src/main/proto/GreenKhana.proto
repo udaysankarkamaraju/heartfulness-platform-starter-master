@@ -21,7 +21,19 @@ message UserOtpVerificationResponse {
 	int32 user_id = 5;
 }
 
- 
+message TaskManagerDashboard{
+  int32 request_count = 1;
+  int32 inprogress_count = 2;
+  int32 for_approval = 3;
+  int32 approved_count = 4;
+}
+
+message TaskManagerGetTaskResponse{
+  repeated TaskList new_task = 1;
+  repeated TaskList accepted_task = 2;
+  repeated TaskList rejected_task = 3;
+}
+
 message VisitorTaskPostRequest {
     string task_name = 1;
     string task_description = 2;
@@ -44,20 +56,109 @@ message TaskManagerDetails {
     string taskmanager_comments = 3;
 }
 
-message VisitorTaskList {
+message TaskList {
 	int64 task_id = 1;
     string task_name = 2;
     string task_description = 3;
-    string taskmanager_name = 4;
-    string taskmanager_comment_date = 5;
-    string taskmanager_comments = 6;    
-	repeated string upload_photo = 7;
-	repeated string upload_video = 8;
-	repeated string voice_recorder = 9;
+    string task_createdby = 4;
+    string create_Date = 5;
+    string complete_Date = 6;
+    string taskmanager_name = 7;
+    string taskmanager_comment_date = 8;
+    string taskmanager_comments = 9;
+	repeated string upload_photo = 10;
+	repeated string upload_video = 11;
+	repeated string voice_recorder = 12;
+}
+
+enum RepeatMode{
+    daily = 0;
+    weekly = 1;
+    fortnightly = 2;
+    monthly = 3;
+    does_not_repeat = 4;
+  }
+
+enum TaskPriority{
+    high = 0;
+    medium = 1;
+    low = 2;
+}
+
+enum TaskStatus{
+	accept = 0;
+	reject = 1;
+}
+
+message CreateNewTaskPost{
+  string task_name = 1;
+  string task_description = 2;
+  repeated string sub_task_description = 3;
+  repeated bytes upload_photo = 4;
+  repeated bytes upload_video = 5;
+  repeated bytes voice_recorder = 6;
+  string supervisor_name = 7;
+  int32 supervisor_id = 8;
+  string task_end_date = 9;
+  RepeatMode repeat_mode = 10;
+  TaskPriority task_priority = 11;
+  string location = 12;
+}
+
+message DocumentsSubmitted{
+    repeated  bytes upload_photo = 1;
+    repeated bytes upload_video = 2;
+    repeated bytes voice_recorder = 3;
+  }
+
+enum EquipmentName{
+  tractor = 0;
+  jcb = 1;
+}
+
+message ApproveTask{
+  string task_name = 1;
+  string task_description = 2;
+  repeated string sub_task_description = 3;
+  DocumentsSubmitted vistor_submit_doc = 4;
+  DocumentsSubmitted supervisor_submit_doc = 5;
+  string supervisor_name = 6;
+  int32 supervisor_id = 7;
+  string task_end_date = 8;
+  RepeatMode task_repeat_mode = 9;
+  TaskPriority priority_of_task = 10;
+  string location = 11;
+  int32 man_hrs_spend = 12;
+  EquipmentName equipment_name = 13;
+  int32 equipment_hrs_spend = 14;
+  TaskStatus task_status = 15;
+}
+
+message Supervisor{
+    string supervisor_name = 1;
+    string supervisor_id = 2;
+}
+
+message SupervisorList{
+  repeated Supervisor supervisor_list = 1;
+}
+
+message TaskAcceptRejectPostRequest{
+  int32 task_id = 1;
+  TaskStatus task_status = 2;
+  string task_status_comment = 3;
+  int32 task_manager_id = 4;
+  string task_comment_date = 5;
+}
+
+message TaskManagerGetAllTaskList{
+  repeated TaskList in_progress_task  =1;
+  repeated TaskList for_approval_task  =2;
+  repeated TaskList approved_task  =3;
 }
 
 message VisitorTaskGetResponse {	
-	repeated VisitorTaskList my_task_request = 1;
+	repeated TaskList my_task_request = 1;
 }
 
 service VisitorService {
@@ -65,5 +166,14 @@ service VisitorService {
 	rpc UserOtpVerificationService (UserOtpVerificationRequest) returns (UserOtpVerificationResponse);
     rpc AddVisitorTasksService (VisitorTaskPostRequest) returns (VisitorTaskPostResponse);
     rpc GetVisitorTasksService  (google.protobuf.Empty) returns (VisitorTaskGetResponse);
+}
 
+service TaskManagerService {
+	rpc GetDashBoardService (google.protobuf.Empty) returns (TaskManagerDashboard);
+	rpc GetRequestedTasksService (google.protobuf.Empty) returns (TaskManagerGetTaskResponse);
+	rpc GetSupervisorsListService (google.protobuf.Empty) returns (SupervisorList);
+	rpc PostAcceptOrRejectTasksService (TaskAcceptRejectPostRequest) returns (google.protobuf.Empty);
+	rpc GetAllTasksService (google.protobuf.Empty) returns (TaskManagerGetAllTaskList);
+	rpc PostCreateNewTaskService (CreateNewTaskPost) returns (google.protobuf.Empty);
+	rpc PostApproveTasksService (ApproveTask) returns (google.protobuf.Empty);
 }

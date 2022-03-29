@@ -2,14 +2,11 @@ package org.heartfulness.starter.interfaces.internal.assembler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.heartfulness.starter.domain.model.VisitorTask;
 import org.heartfulness.starter.dto.VisitorTaskDto;
 import org.heartfulness.starter.interfaces.grpc.GreenKhana;
+import org.heartfulness.starter.interfaces.grpc.GreenKhana.TaskList;
 import org.heartfulness.starter.interfaces.grpc.GreenKhana.VisitorTaskGetResponse;
-import org.heartfulness.starter.interfaces.grpc.GreenKhana.VisitorTaskList;
-import org.heartfulness.starter.interfaces.grpc.GreenKhana.VisitorTaskPostRequest;
 import org.heartfulness.starter.interfaces.grpc.GreenKhana.VisitorTaskPostResponse;
 import org.springframework.util.StringUtils;
 
@@ -23,10 +20,10 @@ public class VisitorTaskGrpcAssembler {
 
     public static VisitorTaskGetResponse toGrpc(List<VisitorTask> visitorTasks) {
     	
-    	List<VisitorTaskList> aList = new ArrayList<>();
+    	List<TaskList> aList = new ArrayList<>();
 
     	for(VisitorTask vtList : visitorTasks) {
-    		aList.add(VisitorTaskList.newBuilder()
+    		aList.add(TaskList.newBuilder()
     		.setTaskId(vtList.getTaskId())
     		.setTaskName(vtList.getTaskName())
     		.setTaskDescription(vtList.getTaskDescription())

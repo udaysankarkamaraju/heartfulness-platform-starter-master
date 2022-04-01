@@ -6,18 +6,24 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+import org.heartfulness.starter.dto.ApprovalStatus;
+import org.heartfulness.starter.dto.TaskStatus;
 import org.heartfulness.starter.util.InstantToLongConverter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "visitortask")
 public class VisitorTask {
 
     @Id
@@ -29,6 +35,9 @@ public class VisitorTask {
     
     @Column(name="task_description")
     private String taskDescription;
+    
+    @Column(name="sub_task_description")
+    private ArrayList<String> subTaskDescription;
 
     @Column(name="task_createdby")
     private String taskCreatedBy;
@@ -53,6 +62,17 @@ public class VisitorTask {
     @Column(name="voice_recorder")
     @Lob
     private ArrayList<String> uploadedAudios;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="approval_status")
+    private ApprovalStatus approvalStatus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="task_status")
+    private TaskStatus taskStatus;
+
+    @OneToOne(mappedBy = "visitortask")
+    private SupervisorDetails supervisorDetails;
 
 	public Long getTaskId() {
 		return taskId;
@@ -101,5 +121,54 @@ public class VisitorTask {
 	public void setUploadedAudios(ArrayList<String> uploadedAudios) {
 		this.uploadedAudios = uploadedAudios;
 	}
+
+
+    public ArrayList<String> getSubTaskDescription() {
+        return subTaskDescription;
+    }
+
+    public void setSubTaskDescription(ArrayList<String> subTaskDescription) {
+        this.subTaskDescription = subTaskDescription;
+    }
+
+    public String getTaskCreatedBy() {
+        return taskCreatedBy;
+    }
+
+    public void setTaskCreatedBy(String taskCreatedBy) {
+        this.taskCreatedBy = taskCreatedBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Instant getCompletedDate() {
+        return completedDate;
+    }
+
+    public void setCompletedDate(Instant completedDate) {
+        this.completedDate = completedDate;
+    }
+
+    public ApprovalStatus getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(ApprovalStatus approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
+    }
 
 }

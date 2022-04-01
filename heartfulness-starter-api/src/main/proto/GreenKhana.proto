@@ -46,6 +46,10 @@ message VisitorTaskPostResponse {
     int64 task_id = 1;
 }
 
+message TaskManagerTaskPostResponse {
+    int64 task_id = 1;
+}
+
 message VisitorTaskGetRequest {
     int32 user_id = 1;
 }
@@ -174,6 +178,6 @@ service TaskManagerService {
 	rpc GetSupervisorsListService (google.protobuf.Empty) returns (SupervisorList);
 	rpc PostAcceptOrRejectTasksService (TaskAcceptRejectPostRequest) returns (google.protobuf.Empty);
 	rpc GetAllTasksService (google.protobuf.Empty) returns (TaskManagerGetAllTaskList);
-	rpc PostCreateNewTaskService (CreateNewTaskPost) returns (google.protobuf.Empty);
+	rpc PostCreateNewTaskService (CreateNewTaskPost) returns (TaskManagerTaskPostResponse);
 	rpc PostApproveTasksService (ApproveTask) returns (google.protobuf.Empty);
 }

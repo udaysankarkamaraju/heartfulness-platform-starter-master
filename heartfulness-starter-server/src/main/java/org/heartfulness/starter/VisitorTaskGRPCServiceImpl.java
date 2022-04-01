@@ -65,7 +65,7 @@ public class VisitorTaskGRPCServiceImpl extends VisitorServiceImplBase {
 
 	@Override
 	public void getVisitorTasksService(Empty request, StreamObserver<VisitorTaskGetResponse> responseObserver) {
-		// TODO Auto-generated method stub
+
         try {
         	List<VisitorTask> visitorTask = visitorTaskService.getAllTasks();
             responseObserver.onNext(VisitorTaskGrpcAssembler.toGrpc(visitorTask));
@@ -76,8 +76,7 @@ public class VisitorTaskGRPCServiceImpl extends VisitorServiceImplBase {
         } catch (Exception e) {
             log.error("Error occurred while getting visitor tasks", e);
             responseObserver.onError(Status.INTERNAL.asRuntimeException());
-        }super.getVisitorTasksService(request, responseObserver);
+        }//super.getVisitorTasksService(request, responseObserver);
 	}
-    
-	
+
 }

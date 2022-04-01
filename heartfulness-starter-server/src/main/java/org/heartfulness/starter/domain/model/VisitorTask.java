@@ -1,13 +1,19 @@
 package org.heartfulness.starter.domain.model;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
+import org.heartfulness.starter.util.InstantToLongConverter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -17,20 +23,35 @@ public class VisitorTask {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long taskId;
-    
+
     @Column(name="task_name")
     private String taskName;
     
     @Column(name="task_description")
     private String taskDescription;
-    
+
+    @Column(name="task_createdby")
+    private String taskCreatedBy;
+
+    @Column(name = "created_date", updatable = false)
+    @CreatedDate
+    @Convert(converter = InstantToLongConverter.class)
+    private Instant createdDate;
+
+    @Column(name = "completed_date")
+    @Convert(converter = InstantToLongConverter.class)
+    private Instant completedDate;
+
     @Column(name="upload_photo")
+    @Lob
     private ArrayList<String> uploadedPhotos; 
     
     @Column(name="upload_video")
+    @Lob
     private ArrayList<String> uploadedVideos;
-    
+
     @Column(name="voice_recorder")
+    @Lob
     private ArrayList<String> uploadedAudios;
 
 	public Long getTaskId() {

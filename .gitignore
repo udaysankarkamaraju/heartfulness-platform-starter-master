@@ -161,3 +161,5 @@ profile-client/src/main/resources/service.account.keys
 profile-server/src/main/resources/service.account.keys
 
 service.account.keys
+*.gz
+*.gz

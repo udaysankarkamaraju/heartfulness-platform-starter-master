@@ -38,7 +38,15 @@ public class VisitorTaskServiceImpl implements VisitorTaskService{
 		visitorTask.setUploadedPhotos(new ArrayList<String>());
 		visitorTask.setUploadedVideos(new ArrayList<String>());
 		visitorTask.setUploadedAudios(new ArrayList<String>());
-		try {
+		visitorTask = mediaUpload(task, visitorTask);
+
+		return visitorTaskRepository.save(visitorTask);
+		
+
+	}
+
+    private VisitorTask mediaUpload(VisitorTaskDto task, VisitorTask visitorTask) {
+        try {
 		for(ByteString file: task.getUploadedPhotos()) {
 				visitorTask = uploadFiles(visitorTask, file.toByteArray(), "jpeg");
 		}
@@ -57,11 +65,8 @@ public class VisitorTaskServiceImpl implements VisitorTaskService{
 			e.printStackTrace();
 			//throw new InvalidRequestException(ErrorCode.MEDIA_FAILURE, "Media cannot be added .");
 		}
-
-		return visitorTaskRepository.save(visitorTask);
-		
-
-	}
+        return visitorTask;
+    }
 
 	@Override
 	public VisitorTask delete(Long taskId) {

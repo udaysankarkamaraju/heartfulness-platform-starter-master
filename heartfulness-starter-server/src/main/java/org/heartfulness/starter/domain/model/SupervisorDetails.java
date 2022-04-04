@@ -1,14 +1,19 @@
 package org.heartfulness.starter.domain.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -52,9 +57,10 @@ public class SupervisorDetails {
     @Lob
     private ArrayList<String> uploadedAudios;
 
-    @OneToMany
-    @PrimaryKeyJoinColumn(name = "taskId")
-    private VisitorTask visitorTask;
+    @OneToMany(targetEntity=VisitorTask.class,cascade = CascadeType.ALL, 
+            fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "taskId", referencedColumnName = "id")
+    private ArrayList<VisitorTask> visitorTask = new ArrayList<VisitorTask>();
 
 	public Integer getSupervisorId() {
 		return supervisorId;

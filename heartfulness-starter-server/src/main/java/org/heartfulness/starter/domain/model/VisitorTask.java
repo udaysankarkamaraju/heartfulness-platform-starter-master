@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -28,6 +29,7 @@ public class VisitorTask {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="id")
     private Long taskId;
 
     @Column(name="task_name")
@@ -71,10 +73,19 @@ public class VisitorTask {
     @Column(name="task_status")
     private TaskStatus taskStatus;
 
-    @OneToOne(mappedBy = "visitortask")
+    @ManyToOne
     private SupervisorDetails supervisorDetails;
+    
+    
+    public SupervisorDetails getSupervisorDetails() {
+        return supervisorDetails;
+    }
 
-	public Long getTaskId() {
+    public void setSupervisorDetails(SupervisorDetails supervisorDetails) {
+        this.supervisorDetails = supervisorDetails;
+    }
+
+    public Long getTaskId() {
 		return taskId;
 	}
 

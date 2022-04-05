@@ -34,7 +34,7 @@ public class SupervisorDetails {
     private String supervisorName;
     
     @Column(name="task_end_date")
-    private Integer taskEndDate;
+    private String taskEndDate;
     
     @Column(name="repeat_mode")
     private RepeatMode repeatMode;
@@ -59,8 +59,7 @@ public class SupervisorDetails {
 
     @OneToMany(targetEntity=VisitorTask.class,cascade = CascadeType.ALL, 
             fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "taskId", referencedColumnName = "id")
-    private ArrayList<VisitorTask> visitorTask = new ArrayList<VisitorTask>();
+    private List<VisitorTask> visitorTask = new ArrayList<VisitorTask>();
 
 	public Integer getSupervisorId() {
 		return supervisorId;
@@ -78,11 +77,11 @@ public class SupervisorDetails {
 		this.supervisorName = supervisorName;
 	}
 
-	public Integer getTaskEndDate() {
+	public String getTaskEndDate() {
 		return taskEndDate;
 	}
 
-	public void setTaskEndDate(Integer taskEndDate) {
+	public void setTaskEndDate(String taskEndDate) {
 		this.taskEndDate = taskEndDate;
 	}
 

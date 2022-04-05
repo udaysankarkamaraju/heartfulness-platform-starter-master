@@ -29,7 +29,6 @@ public class VisitorTask {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
     private Long taskId;
 
     @Column(name="task_name")

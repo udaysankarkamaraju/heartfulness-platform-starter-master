@@ -1,9 +1,12 @@
 package org.heartfulness.starter.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.heartfulness.starter.interfaces.grpc.GreenKhana.RepeatMode;
 import org.heartfulness.starter.interfaces.grpc.GreenKhana.TaskPriority;
+
+import com.google.protobuf.ByteString;
 
 public class TaskManagerTaskDto {
 
@@ -13,17 +16,17 @@ public class TaskManagerTaskDto {
 
     public ArrayList<String> subTaskDescription;
 
-    public ArrayList<String> uploadedPhotos; 
+    public List<ByteString> uploadedPhotos; 
     
-    public ArrayList<String> uploadedVideos;
+    public List<ByteString> uploadedVideos;
 
-    public ArrayList<String> uploadedAudios;
+    public List<ByteString> uploadedAudios;
 
     public Integer supervisorId;
 
     public String supervisorName;
     
-    public Integer taskEndDate;
+    public String taskEndDate;
     
     public RepeatMode repeatMode;
 
@@ -55,27 +58,28 @@ public class TaskManagerTaskDto {
         this.subTaskDescription = subTaskDescription;
     }
 
-    public ArrayList<String> getUploadedPhotos() {
+
+    public List<ByteString> getUploadedPhotos() {
         return uploadedPhotos;
     }
 
-    public void setUploadedPhotos(ArrayList<String> uploadedPhotos) {
+    public void setUploadedPhotos(List<ByteString> uploadedPhotos) {
         this.uploadedPhotos = uploadedPhotos;
     }
 
-    public ArrayList<String> getUploadedVideos() {
+    public List<ByteString> getUploadedVideos() {
         return uploadedVideos;
     }
 
-    public void setUploadedVideos(ArrayList<String> uploadedVideos) {
+    public void setUploadedVideos(List<ByteString> uploadedVideos) {
         this.uploadedVideos = uploadedVideos;
     }
 
-    public ArrayList<String> getUploadedAudios() {
+    public List<ByteString> getUploadedAudios() {
         return uploadedAudios;
     }
 
-    public void setUploadedAudios(ArrayList<String> uploadedAudios) {
+    public void setUploadedAudios(List<ByteString> uploadedAudios) {
         this.uploadedAudios = uploadedAudios;
     }
 
@@ -95,11 +99,11 @@ public class TaskManagerTaskDto {
         this.supervisorName = supervisorName;
     }
 
-    public Integer getTaskEndDate() {
+    public String getTaskEndDate() {
         return taskEndDate;
     }
 
-    public void setTaskEndDate(Integer taskEndDate) {
+    public void setTaskEndDate(String taskEndDate) {
         this.taskEndDate = taskEndDate;
     }
 
